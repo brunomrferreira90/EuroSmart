@@ -197,6 +197,7 @@ from app.pages.sobre import sobre
 from app.pages.afiliados import afiliados
 from app.pages.admin_login import admin_login
 from app.pages.admin_dashboard import admin_dashboard
+from app.pages.not_found import not_found_page
 
 app = rx.App(
     theme=rx.theme(appearance="light"),
@@ -218,3 +219,4 @@ app.add_page(sobre)
 app.add_page(afiliados)
 app.add_page(admin_login, route="/admin/login")
 app.add_page(admin_dashboard, route="/admin/dashboard")
+app.add_page(not_found_page, route="/404")
