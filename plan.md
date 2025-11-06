@@ -41,12 +41,6 @@ Criar uma aplicação web moderna estilo fintech para ajudar pessoas em Portugal
 - [x] Dialog de confirmação para remoção
 - [x] Notificações toast para feedback de ações
 
-**Notas técnicas:**
-- AdminState implementado com autenticação (email: admin@eurosmart.com, password: password123)
-- Sistema CRUD funcional para promoções
-- Interface admin com design fintech EuroSmart
-- Proteção de rotas com check_auth
-
 ---
 
 ## Fase 4: Página Afiliados ✅
@@ -56,18 +50,43 @@ Criar uma aplicação web moderna estilo fintech para ajudar pessoas em Portugal
 - [x] Secção "Como Funciona?" com 3 passos (Regista-te, Partilha, Ganha)
 - [x] Botão "Quero ser Afiliado" com ícone rocket
 - [x] Adicionar link "Afiliados" no menu de navegação
-- [x] Design consistente com resto do site (Poppins + Inter, cores originais)
-- [x] Layout responsivo e animações hover
-
-**Conteúdo Implementado:**
-- Hero section explicativo sobre programa de afiliados
-- 3 cartões com passos para começar (user-plus, share-2, euro icons)
-- Call-to-action destacado
-- Design fintech moderno mantendo paleta original
+- [x] Design consistente com resto do site
 
 ---
 
-## Fase 5: Funcionalidades Avançadas (Futuro)
+## Fase 5: Deploy Automático para GitHub Pages ✅
+- [x] Criar DeployState com lógica completa de deploy
+- [x] Integração com PyGithub para upload de ficheiros
+- [x] Sistema de export automático (reflex export --frontend-only)
+- [x] Upload de todos os ficheiros para o repositório GitHub
+- [x] Seção de deploy no admin dashboard
+- [x] Interface visual com logs em tempo real
+- [x] Botão "Iniciar Deploy" com gradiente EuroSmart
+- [x] Área de logs tipo terminal (fundo preto, texto verde)
+- [x] Spinner durante deploy
+- [x] Link para o site após deploy bem-sucedido
+- [x] Verificação de GITHUB_TOKEN
+- [x] Tratamento de erros completo
+
+**Implementação Técnica:**
+- DeployState localizado em `app/states/deploy_state.py`
+- Repositório de destino: `brunomrferreira90/brunomrferreira90.github.io`
+- Branch: `main`
+- URL final: https://brunomrferreira90.github.io/
+- Autenticação moderna com PyGithub (Auth.Token)
+- Background event para deploy assíncrono
+- Logs em tempo real durante o processo
+
+**Como Usar:**
+1. Aceder ao painel admin: `/admin/dashboard`
+2. Login com credenciais (admin@eurosmart.com / password123)
+3. Clicar em "Iniciar Deploy" na seção de deploy
+4. Aguardar o processo (export → upload → configuração)
+5. Visitar o site em https://brunomrferreira90.github.io/
+
+---
+
+## Fase 6: Funcionalidades Avançadas (Futuro)
 - [ ] Implementar funcionalidade de Editar promoções
 - [ ] Criar visualização de "Promoções a expirar em breve"
 - [ ] Adicionar campo "data de expiração" nas promoções
@@ -99,6 +118,11 @@ Criar uma aplicação web moderna estilo fintech para ajudar pessoas em Portugal
 - Autenticação admin básica
 - CRUD de promoções (Create, Delete - Read via tabela)
 - Página informativa de programa de afiliados
+- **Deploy automático para GitHub Pages**
+
+**Dependências:**
+- reflex==0.8.17
+- PyGithub (para integração com GitHub)
 
 ---
 
@@ -107,18 +131,17 @@ Criar uma aplicação web moderna estilo fintech para ajudar pessoas em Portugal
 ✅ **Fase 2 Completa** - Todas as páginas de conteúdo
 ✅ **Fase 3 Completa** - Sistema Admin com login, dashboard e CRUD básico
 ✅ **Fase 4 Completa** - Página Afiliados adicionada
+✅ **Fase 5 Completa** - Deploy Automático para GitHub Pages
 
-## 🎉 **PROJETO ATUALIZADO COM SUCESSO!**
+## 🎉 **SISTEMA DE DEPLOY AUTOMÁTICO IMPLEMENTADO!**
 
 A aplicação EuroSmart agora inclui:
-- Design moderno fintech com gradientes vibrantes (paleta original mantida)
+- Design moderno fintech com gradientes vibrantes
 - Homepage completa com hero, promoções, apps e comunidade
-- Página de promoções com filtros dinâmicos (país, categoria, pesquisa)
+- Página de promoções com filtros dinâmicos
 - Sistema admin completo com autenticação e gestão de promoções
-- Todas as páginas de conteúdo (Ferramentas, Guia, Comunidade, Sobre, **Afiliados**)
-- UI responsiva e animações suaves
-- Sistema de badges e preços antes/depois
-- **NOVO:** Página Afiliados com informação sobre programa e call-to-action
+- Todas as páginas de conteúdo (Ferramentas, Guia, Comunidade, Sobre, Afiliados)
+- **NOVO:** Deploy automático para GitHub Pages integrado no painel admin
 
 **Credenciais Admin:**
 - Email: admin@eurosmart.com
@@ -131,6 +154,12 @@ A aplicação EuroSmart agora inclui:
 - /guia (Guias de poupança)
 - /comunidade (Telegram + WhatsApp)
 - /sobre (Sobre nós)
-- **/afiliados** (Programa de afiliados) ← **NOVO**
+- /afiliados (Programa de afiliados)
 - /admin/login (Login admin)
-- /admin/dashboard (Dashboard admin)
+- /admin/dashboard (Dashboard admin **com Deploy Automático**)
+
+**Deploy Automático:**
+- Aceder ao painel admin
+- Clicar em "Iniciar Deploy"
+- Sistema faz export + upload para GitHub automaticamente
+- Site fica disponível em: https://brunomrferreira90.github.io/

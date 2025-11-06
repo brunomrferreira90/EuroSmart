@@ -2,6 +2,7 @@ import reflex as rx
 import os
 from app.states.promotions_state import PromotionsState, DetailedPromotion
 from typing import Literal
+from app.states.deploy_state import DeployState
 
 
 class AdminState(rx.State):

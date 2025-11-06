@@ -1,6 +1,63 @@
 import reflex as rx
 from app.states.admin_state import AdminState
 from app.states.promotions_state import PromotionsState
+from app.states.deploy_state import DeployState
+
+
+def deploy_section() -> rx.Component:
+    return rx.el.div(
+        rx.el.h2(
+            "Deploy para GitHub Pages",
+            class_name="text-xl font-semibold text-gray-800 mb-4",
+        ),
+        rx.el.div(
+            rx.el.div(
+                rx.el.p(
+                    "Faça o deploy da versão mais recente do site diretamente para o GitHub Pages.",
+                    class_name="text-sm text-gray-600",
+                ),
+                rx.el.button(
+                    rx.cond(
+                        DeployState.is_deploying,
+                        rx.fragment(rx.spinner(class_name="mr-2"), "A Fazer Deploy..."),
+                        rx.fragment(
+                            rx.icon("cloud_upload", class_name="mr-2"), "Iniciar Deploy"
+                        ),
+                    ),
+                    on_click=DeployState.auto_deploy,
+                    disabled=DeployState.is_deploying,
+                    class_name="flex items-center bg-gradient-to-r from-purple-500 to-cyan-400 text-white px-4 py-2 rounded-lg font-medium hover:opacity-90 transition-opacity",
+                ),
+                class_name="flex justify-between items-center bg-white p-6 rounded-xl border shadow-sm",
+            ),
+            rx.cond(
+                DeployState.deploy_status != "idle",
+                rx.el.div(
+                    rx.el.h3("Logs do Deploy", class_name="font-semibold mb-2"),
+                    rx.el.div(
+                        rx.foreach(
+                            DeployState.deploy_logs,
+                            lambda log: rx.el.p(log, class_name="text-xs font-mono"),
+                        ),
+                        class_name="bg-gray-900 text-green-400 p-4 rounded-lg h-64 overflow-y-auto text-sm",
+                    ),
+                    rx.cond(
+                        DeployState.deploy_status == "success",
+                        rx.el.a(
+                            "Ver Site",
+                            href=DeployState.deployed_url,
+                            is_external=True,
+                            class_name="mt-4 inline-flex items-center px-4 py-2 bg-green-500 text-white rounded-lg",
+                        ),
+                        None,
+                    ),
+                    class_name="mt-4",
+                ),
+                None,
+            ),
+        ),
+        class_name="mt-8",
+    )
 
 
 def add_promotion_modal() -> rx.Component:
@@ -172,43 +229,47 @@ def promotions_table() -> rx.Component:
 def admin_dashboard() -> rx.Component:
     return rx.el.div(
         rx.el.div(
-            rx.el.h1(
-                "Painel de Administração",
-                class_name="text-3xl font-bold text-gray-900 font-['Poppins']",
-            ),
-            rx.el.button(
-                "Logout",
-                on_click=AdminState.logout,
-                class_name="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300",
-            ),
-            class_name="flex justify-between items-center p-6 border-b bg-white",
-        ),
-        rx.el.main(
             rx.el.div(
-                rx.el.h2(
-                    "Visão Geral", class_name="text-xl font-semibold text-gray-800"
+                rx.el.h1(
+                    "Painel de Administração",
+                    class_name="text-3xl font-bold text-gray-900 font-['Poppins']",
                 ),
-                add_promotion_modal(),
-                class_name="flex justify-between items-center mb-6",
+                rx.el.button(
+                    "Logout",
+                    on_click=AdminState.logout,
+                    class_name="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300",
+                ),
+                class_name="flex justify-between items-center p-6 border-b bg-white sticky top-0 z-10",
             ),
-            rx.el.div(
+            rx.el.main(
                 rx.el.div(
-                    rx.el.p(
-                        "Total de Promoções",
-                        class_name="text-sm font-medium text-gray-500",
+                    rx.el.h2(
+                        "Visão Geral", class_name="text-xl font-semibold text-gray-800"
                     ),
-                    rx.el.p(
-                        PromotionsState.total_promotions.to_string(),
-                        class_name="text-3xl font-bold text-gray-900",
-                    ),
-                    class_name="bg-white p-6 rounded-xl border shadow-sm",
+                    add_promotion_modal(),
+                    class_name="flex justify-between items-center mb-6",
                 ),
-                class_name="grid grid-cols-1 md:grid-cols-3 gap-6",
+                rx.el.div(
+                    rx.el.div(
+                        rx.el.p(
+                            "Total de Promoções",
+                            class_name="text-sm font-medium text-gray-500",
+                        ),
+                        rx.el.p(
+                            PromotionsState.total_promotions.to_string(),
+                            class_name="text-3xl font-bold text-gray-900",
+                        ),
+                        class_name="bg-white p-6 rounded-xl border shadow-sm",
+                    ),
+                    class_name="grid grid-cols-1 md:grid-cols-3 gap-6",
+                ),
+                promotions_table(),
+                deploy_section(),
+                delete_confirm_dialog(),
+                class_name="p-6",
             ),
-            promotions_table(),
-            delete_confirm_dialog(),
-            class_name="p-6",
+            class_name="flex-1 overflow-y-auto",
         ),
-        on_mount=AdminState.check_auth,
-        class_name="bg-gray-50 min-h-screen",
+        on_mount=[AdminState.check_auth, DeployState.check_github_token],
+        class_name="bg-gray-50 min-h-screen flex flex-col",
     )

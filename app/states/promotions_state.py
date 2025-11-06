@@ -9,9 +9,7 @@ class DetailedPromotion(TypedDict):
     description: str
     link: str
     country: Literal["PT", "ES", "BOTH"]
-    category: Literal[
-        "Tecnologia", "Supermercado", "Viagens", "Apps", "Finanças", "Beleza"
-    ]
+    category: str
     badge: Literal["Top Deal", "Termina Breve", "Cashback", ""]
     old_price: float | None
     new_price: float | None
