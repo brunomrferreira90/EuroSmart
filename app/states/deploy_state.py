@@ -68,7 +68,7 @@ class DeployState(rx.State):
             github_token = os.getenv("GITHUB_TOKEN")
             g = Github(github_token)
             repo = g.get_repo(f"{self.repo_owner}/{self.repo_name}")
-            frontend_path = os.path.join(".web", "_static")
+            frontend_path = "frontend/dist"
             if not os.path.isdir(frontend_path):
                 raise FileNotFoundError(
                     f"Diretório de export não encontrado: {frontend_path}"
